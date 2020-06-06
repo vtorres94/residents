@@ -1,0 +1,49 @@
+entity Client{
+	client String,
+    logo String
+}
+entity Facility{
+	key String maxlength(10),
+	facility String,
+    phone String,
+    address String
+}
+entity Room{
+	key String maxlength(10),
+    residentLimit Integer,
+    rent Double,
+    image String,
+    payDay Integer,
+    status Integer max(4)
+}
+entity Resident{
+	name String,
+    firstName String,
+    lastName String,
+    phone String,
+    age Integer
+}
+entity RentAggrement{
+	key String maxlength(10),
+    start Instant,
+    finish Instant,
+    pdf String
+}
+relationship ManyToOne {
+	Facility{client(client)} to Client,
+	Room{client(client)} to Client,
+    Room{facility(name)} to Facility,
+    Resident{client(client)} to Client,
+    Resident{room(key)} to Room,
+    RentAggrement{client(client)} to Client,
+    RentAggrement{resident(name)} to Resident,
+    RentAggrement{room(key)} to Room
+}
+
+dto * with mapstruct
+
+service * with serviceClass
+
+paginate * with pagination
+
+filter *
